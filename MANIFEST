@@ -1,0 +1,9 @@
+lib/HTTP/Recorder.pm
+lib/HTTP/Recorder/Logger.pm
+Makefile.PL
+t/load.t
+t/pod.t
+MANIFEST
+CHANGES
+README
+META.yml                                Module meta-data (added by MakeMaker)
