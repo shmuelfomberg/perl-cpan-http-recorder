@@ -337,8 +337,14 @@ sub unmodify {
 
     return $content unless $content;
 
-    # get rid of the arguments we added
+	# get rid of the arguments we added
     my $prefix = $self->{prefix};
+
+	# workaround: the content can be a simple string
+	if (not ref $content) {
+		$content =~ s/(?:^|(?<=\&))\Q$prefix\E-[^=]+=[^\&]*(\&|$)//g;
+		return $content;
+	}
 
     for my $key ($content->query_param) {
 	if ($key =~ /^$prefix-/) {
