@@ -3,6 +3,7 @@ package HTTP::Recorder::Logger;
 use strict;
 use warnings;
 use LWP::MemberMixin;
+use HTML::Entities qw(decode_entities);
 our @ISA = qw( LWP::MemberMixin );
 
 sub new {
@@ -102,12 +103,13 @@ sub FollowLink {
 	);
 
     if ($args{text}) {
-	$args{text} =~ s/"/\\"/g;
-	$self->Log("follow_link", 
-		   "text => '$args{text}', n => '$args{index}'");
+		$args{text} =~ s/"/\\"/g;
+		# follow_link expects trimmed undecoded text, see HTTP::TokeParser::get_trimmed_text
+		$args{text} =~ s/^\s+//; $args{text} =~ s/\s+$//; $args{text} =~ s/\s+/ /g;
+		$args{text} = decode_entities $args{text};
+		$self->Log("follow_link",  "text => '$args{text}', n => '$args{index}'");
     } else {
-	$self->Log("follow_link", 
-		   "n => '$args{index}'");
+		$self->Log("follow_link", "n => '$args{index}'");
     }
 }
 

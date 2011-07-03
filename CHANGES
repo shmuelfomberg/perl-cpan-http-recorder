@@ -5,7 +5,7 @@ Revision history for HTTP::Recorder
 	New maintanner
 	added a script httprecorder.pl for simple recordering
 	Added HTTP::Proxy dependacy to Makefile.PL
-	
+	Added patch by SREZIC for encoding follow_link commands bugid:8243
 
 0.05 17 August 2005
    Fixed a bug where link text wasn't being un-escaped before being

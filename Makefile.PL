@@ -13,6 +13,7 @@ WriteMakefile(
 					 HTTP::Proxy => 0,
 					 Getopt::Long => 0,
 					 Pod::Usage => 0,
+					 HTML::Parser => 0,
                    },
     ABSTRACT     => '',
 );

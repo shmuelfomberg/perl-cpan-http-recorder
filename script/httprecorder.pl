@@ -33,18 +33,6 @@ $proxy->agent( $agent );
 # start the proxy
 $proxy->start();
 
-sub Usage {
-	print <<"USAGE";
-HTTP::Recorder quick script
-Usage:
-	httprecorder [ --port=8080 ] [ --file=http_traffic ] [ --help ]
-
-By default, will start a HTTP Proxy server on port 8080, and will record 
-all traffic to "http_traffic" file in the current directory
-USAGE
-	exit(0);
-}
-
 =head1 NAME
 
 httprecorder - quick script for recording HTTP traffic
@@ -58,6 +46,11 @@ httprecorder - quick script for recording HTTP traffic
 	--port    Port number to use for the proxy server (default 8080)
 	--file    filename to record the traffic to (default "http_traffic")
 
+=head1 DESCRIPTION
+
+This is a quick script for using HTTP::Recorder module. If you need customizing
+please see the module itself
+	
 =head1 Author
 
 Shmuel Fomberg <semuelf@cpan.org>
@@ -66,7 +59,6 @@ Shmuel Fomberg <semuelf@cpan.org>
 
 Copyright 2011 Shmuel Fomberg.
 
-This program is free software; you can redistribute it and/or modify it 
-under the same terms as Perl itself.
+This program is free software; Released under the GNU Public License.
 
 =cut
