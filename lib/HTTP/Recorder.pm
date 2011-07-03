@@ -1,14 +1,10 @@
 package HTTP::Recorder;
 
-our $VERSION = "0.05";
+our $VERSION = "0.06_01";
 
 =head1 NAME
 
 HTTP::Recorder - record interaction with websites
-
-=head1 VERSION
-
-Version 0.05
 
 =head1 SYNOPSIS
 

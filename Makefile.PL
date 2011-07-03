@@ -10,6 +10,9 @@ WriteMakefile(
                      URI::Escape => 0,
                      URI::QueryParam => 0,
                      HTTP::Request::Params => 0, 
+					 HTTP::Proxy => 0,
+					 Getopt::Long => 0,
+					 Pod::Usage => 0,
                    },
     ABSTRACT     => '',
 );

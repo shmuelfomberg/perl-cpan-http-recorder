@@ -1,6 +1,12 @@
 Revision history for HTTP::Recorder
 -----------------------------------
 
+0.06_01
+	New maintanner
+	added a script httprecorder.pl for simple recordering
+	Added HTTP::Proxy dependacy to Makefile.PL
+	
+
 0.05 17 August 2005
    Fixed a bug where link text wasn't being un-escaped before being
    logged.
