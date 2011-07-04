@@ -170,6 +170,7 @@ sub SetField {
 
     # escape single quotes
     $args{name} =~ s/'/\\'/g;
+	$args{value} = '' if !defined($args{value});
     $args{value} =~ s/'/\\'/g;
 
     $self->Log("field", "'$args{name}', '$args{value}'");
