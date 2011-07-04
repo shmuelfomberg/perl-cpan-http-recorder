@@ -389,115 +389,111 @@ sub modify_response {
     my $in_head = 0;
     my $basehref;
     while (my $token = $p->get_token()) {
-	if (@$token[0] eq 'S') {
-	    my $tagname = @$token[1];
-	    my $attrs = @$token[2];
-	    my $oldaction;
-	    my $text;
+        if (@$token[0] eq 'S') {
+            my $tagname = @$token[1];
+            my $attrs = @$token[2];
+            my $oldaction;
+            my $text;
 
-	    if ($tagname eq 'head') {
-		$in_head = 1;
-	    } elsif ($in_head && $tagname eq 'base') {
-		$basehref = new URI($attrs->{'base'});
-	    } elsif ($tagname eq 'html') {
-		# add the javascript to update the script
-		$newcontent .= $self->script_update();
-	    } elsif (($tagname eq 'a' || $tagname eq 'link') && 
-		     $attrs->{'href'}) {
-		my $t = $p->get_token();
-		if (@$t[0] eq 'T') {
-		    $text = @$t[1];
-		} else {
-		    undef $text;
-		}
-		$p->unget_token($t);
+            if ($tagname eq 'head') {
+                $in_head = 1;
+            } elsif ($in_head && $tagname eq 'base') {
+                $basehref = new URI($attrs->{'base'});
+            } elsif ($tagname eq 'html') {
+                # add the javascript to update the script
+                $newcontent .= $self->script_update();
+            } elsif (($tagname eq 'a' || $tagname eq 'link') && $attrs->{'href'}) {
+                my $t = $p->get_token();
+                if (@$t[0] eq 'T') {
+                    $text = @$t[1];
+                } else {
+                    undef $text;
+                }
+                $p->unget_token($t);
 
-		# up the counter for links with the same text
-		my $index;
-		if (defined $text) {
-		    $links{$text} = 0 if !(exists $links{$text});
-		    $links{$text}++;
-		    $index = $links{$text};
-		} else {
-		    $index = $linknumber;
-		}
-		if ($attrs->{'href'} =~ m/^javascript:/i) {
-		    $js_href = 1;
-		} else {
-		    if ($tagname eq 'a') {
-			$attrs->{'href'} = 
-			    $self->rewrite_href($attrs->{'href'}, 
-						$text, 
-						$index,
-						$response->base);
-		    } elsif ($tagname eq 'link') {
-			$attrs->{'href'} = 
-			    $self->rewrite_linkhref($attrs->{'href'}, 
-						    $response->base);
-		    }
-		}
-		$linknumber++;
-	    } elsif ($tagname eq 'form') {
-		$formcount++;
-		$formnumber++;
-	    }
+                # up the counter for links with the same text
+                my $index;
+                if (defined $text) {
+                    $links{$text} = 0 if !(exists $links{$text});
+                    $links{$text}++;
+                    $index = $links{$text};
+                } else {
+                    $index = $linknumber;
+                }
+                if ($attrs->{'href'} =~ m/^javascript:/i) {
+                    $js_href = 1;
+                } else {
+                    if ($tagname eq 'a') {
+                    $attrs->{'href'} = 
+                        $self->rewrite_href($attrs->{'href'}, 
+                                $text, 
+                                $index,
+                                $response->base);
+                    } elsif ($tagname eq 'link') {
+                    $attrs->{'href'} = 
+                        $self->rewrite_linkhref($attrs->{'href'}, 
+                                    $response->base);
+                    }
+                }
+                $linknumber++;
+            } elsif ($tagname eq 'form') {
+                $formcount++;
+                $formnumber++;
+            }
 
-	    # put the hidden field before the real field
-	    # so that it won't be inside
-	    if (!$js_href && 
-		$tagname ne 'form' && ($formcount == 1)) {
-		my ($formfield, $fieldprefix, $fieldtype, $fieldname);
-		$fieldprefix = "$self->{prefix}-form" . $formnumber;
-		$fieldtype = lc($attrs->{type}) || 'unknown';
-		if ($attrs->{name}) {
-		    $fieldname = $attrs->{name};
-		    $formfield = ($fieldprefix . '-' . 
-				  $fieldtype . '-' . $fieldname);
-		    $newcontent .= "<input type=\"hidden\" name=\"$formfield\" value=1>\n";
-		}
-	    }
+            # put the hidden field before the real field
+            # so that it won't be inside
+            if (!$js_href && $tagname ne 'form' && ($formcount == 1)) {
+                my ($formfield, $fieldprefix, $fieldtype, $fieldname);
+                $fieldprefix = "$self->{prefix}-form" . $formnumber;
+                $fieldtype = lc($attrs->{type}) || 'unknown';
+                if ($attrs->{name}) {
+                    $fieldname = $attrs->{name};
+                    $formfield = ($fieldprefix . '-' . 
+                          $fieldtype . '-' . $fieldname);
+                    $newcontent .= "<input type=\"hidden\" name=\"$formfield\" value=1>\n";
+                }
+            }
 
-	    $newcontent .= ("<".$tagname);
+            $newcontent .= ("<".$tagname);
 
-	    # keep the attributes in their original order
-	    my $attrlist = @$token[3];
-	    foreach my $attr (@$attrlist) {
-		# only rewrite if 
-		# - it's not part of a javascript link
-		# - it's not a hidden field
-		$newcontent .= (" ".$attr."=\"".$attrs->{$attr}."\"");
-	    }
-	    $newcontent .= (">\n");
-	    if ($tagname eq 'form') {
-		if ($formcount == 1) {
-		    $newcontent .= $self->rewrite_form_content($attrs->{name} || "",
-							       $formnumber,
-							       $response->base);
-		}
-	    }
-	} elsif (@$token[0] eq 'E') {
-	    my $tagname = @$token[1];
-	    if ($tagname eq 'head') {
-		if (!$basehref) {
-		    $basehref = $response->base;
-		    $basehref->scheme('http') if $basehref->scheme eq 'https';
-		    $newcontent .= "<base href=\"" . $basehref . "\">\n";
-		}
-		$basehref = "";
-		$in_head = 0;
-	    }
-	    $newcontent .= ("</");
-	    $newcontent .= ($tagname.">\n");
-	    if ($tagname eq 'form') {
-		$formcount--;
-	    } elsif ($tagname eq 'a' || $tagname eq 'link') {
-		$js_href = 0;
-	    }
-	} elsif (@$token[0] eq 'PI') {
-	    $newcontent .= (@$token[2]);
-	} else {
-	    $newcontent .= (@$token[1]);
-	}
+            # keep the attributes in their original order
+            my $attrlist = @$token[3];
+            foreach my $attr (@$attrlist) {
+                # only rewrite if 
+                # - it's not part of a javascript link
+                # - it's not a hidden field
+                $newcontent .= (" ".$attr."=\"".$attrs->{$attr}."\"");
+            }
+            $newcontent .= (">\n");
+            if ($tagname eq 'form') {
+                if ($formcount == 1) {
+                    $newcontent .= $self->rewrite_form_content($attrs->{name} || "", $formnumber, $response->base);
+                }
+            }
+        } elsif (@$token[0] eq 'E') {
+            my $tagname = @$token[1];
+            if ($tagname eq 'head') {
+                if (!$basehref) {
+                    $basehref = $response->base;
+                    $basehref->scheme('http') if $basehref->scheme eq 'https';
+                    $newcontent .= "<base href=\"" . $basehref . "\">\n";
+                }
+                $basehref = "";
+                $in_head = 0;
+            }
+            $newcontent .= ("</");
+            $newcontent .= ($tagname.">\n");
+            if ($tagname eq 'form') {
+                $formcount--;
+            } elsif ($tagname eq 'a' || $tagname eq 'link') {
+                $js_href = 0;
+            }
+        } elsif (@$token[0] eq 'PI') {
+            $newcontent .= (@$token[2]);
+        } else {
+            $newcontent .= (@$token[1]);
+        }
     }
 
     $response->content($newcontent);
