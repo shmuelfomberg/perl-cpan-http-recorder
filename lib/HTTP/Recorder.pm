@@ -399,9 +399,6 @@ sub modify_response {
                 $in_head = 1;
             } elsif ($in_head && $tagname eq 'base') {
                 $basehref = new URI($attrs->{'base'});
-            } elsif ($tagname eq 'html') {
-                # add the javascript to update the script
-                $newcontent .= $self->script_update();
             } elsif (($tagname eq 'a' || $tagname eq 'link') && $attrs->{'href'}) {
                 my $t = $p->get_token();
                 if (@$t[0] eq 'T') {
@@ -466,6 +463,10 @@ sub modify_response {
                 $newcontent .= (" ".$attr."=\"".$attrs->{$attr}."\"");
             }
             $newcontent .= (">\n");
+            if ($tagname eq 'head') {
+                # add the javascript to update the script, right after the head opening tag
+                $newcontent .= $self->script_update();
+            }
             if ($tagname eq 'form') {
                 if ($formcount == 1) {
                     $newcontent .= $self->rewrite_form_content($attrs->{name} || "", $formnumber, $response->base);
