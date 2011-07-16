@@ -15,7 +15,22 @@ responses so that additional requests can be recorded.
 
 =head3 The Proxy Script
 
-Set it up like this:
+For quick start, run the httprecorder script
+
+    httprecorder
+
+This will open a local proxy on port 8080, and will dump the recorded traffic
+to a file named http_traffic in the current directory. use the -help parameter
+for usage info
+
+Start the proxy script, then change the settings in your web browser
+so that it will use this proxy for web requests.  For more information
+about proxy settings and the default port, see L<HTTP::Proxy>.
+
+The script will be recorded in the specified file, and can be viewed
+and modified via the control panel.
+
+For better control, use this example:
 
     #!/usr/bin/perl
 
@@ -35,15 +50,6 @@ Set it up like this:
 
     # start the proxy
     $proxy->start();
-
-    1;
-
-Start the proxy script, then change the settings in your web browser
-so that it will use this proxy for web requests.  For more information
-about proxy settings and the default port, see L<HTTP::Proxy>.
-
-The script will be recorded in the specified file, and can be viewed
-and modified via the control panel.
 
 =head3 Start Recording
 
@@ -729,23 +735,11 @@ be sure to include a (preferably short and simple) HTML page that
 demonstrates the problem, and a clear explanation of a) what it does
 that it shouldn't, and b) what it should do instead.
 
-=head1 More information
-
-You can read more about L<HTTP::Recorder>, including browsing the
-current source tree, at http://www.bitmistress.org/.
-
-There's a mailing list for users and developers of HTTP::Recorder.
-You can subscribe at
-http://lists.fsck.com/mailman/listinfo/http-recorder, or by sending
-email to http-recorder-request@lists.fsck.com with the subject
-"subscribe".
-
-Mailing list archives can be found at
-http://lists.fsck.com/pipermail/http-recorder.
-
 =head1 Author
 
 Copyright 2003-2005 by Linda Julien <leira@cpan.org>
+
+Maintained by Shmuel Fomberg <semuelf@cpan.org>
 
 Released under the GNU Public License.
 

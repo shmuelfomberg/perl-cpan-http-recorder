@@ -1,5 +1,6 @@
 lib/HTTP/Recorder.pm
 lib/HTTP/Recorder/Logger.pm
+bin/httprecorder
 Makefile.PL
 t/load.t
 t/pod.t

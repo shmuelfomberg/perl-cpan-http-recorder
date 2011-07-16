@@ -3,8 +3,8 @@ use ExtUtils::MakeMaker;
 # the contents of the Makefile that is written.
 WriteMakefile(
     NAME         => 'HTTP::Recorder',
-    VERSION_FROM => 'lib/HTTP/Recorder.pm', # finds $VERSION
-    AUTHOR       => 'Linda Julien (leira@cpan.org)',
+    VERSION_FROM => 'lib/HTTP/Recorder.pm',
+    AUTHOR       => 'Shmuel Fomberg (semuelf@cpan.org)',
     PREREQ_PM	=> { LWP::UserAgent => 0,
                      HTML::TokeParser => 0,
                      URI::Escape => 0,
@@ -15,5 +15,7 @@ WriteMakefile(
 					 Pod::Usage => 0,
 					 HTML::Parser => 0,
                    },
-    ABSTRACT     => '',
+    EXE_FILES => [qw(
+        bin/httprecorder
+    )],
 );
