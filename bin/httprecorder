@@ -40,18 +40,18 @@ httprecorder - quick script for recording HTTP traffic
 
 =head1 SYNOPSIS
 
-	httprecorder [ --port=8080 ] [ --file=http_traffic ] [ --help ]
+    httprecorder [ --port=8080 ] [ --file=http_traffic ] [ --help ]
 
-	Options:
-	--help    brief help message
-	--port    Port number to use for the proxy server (default 8080)
-	--file    filename to record the traffic to (default "http_traffic")
+    Options:
+    --help    brief help message
+    --port    Port number to use for the proxy server (default 8080)
+    --file    filename to record the traffic to (default "http_traffic")
 
 =head1 DESCRIPTION
 
 This is a quick script for using HTTP::Recorder module. If you need customizing
 please see the module itself
-	
+
 =head1 Author
 
 Shmuel Fomberg <semuelf@cpan.org>
