@@ -1,6 +1,6 @@
 package HTTP::Recorder;
 
-our $VERSION = "0.06_01";
+our $VERSION = "0.06_02";
 
 =head1 NAME
 
