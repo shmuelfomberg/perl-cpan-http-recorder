@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 
 use strict;
 use warnings;
@@ -16,16 +16,17 @@ GetOptions ("port=i" => \$port, "file=s" => \$filename, "help" => \$show_help);
 pod2usage(1) if ($show_help);
 
 print "httprecorder - quick script for recording HTTP traffic\n";
-print "Starting Proxy Server on Port $port\n";
-print "Recording to file: $filename\n";
 
 my $proxy = HTTP::Proxy->new( port => $port );
+print "Proxy server host:port  ".$proxy->host.":".$proxy->port."\n";
 
 # create a new HTTP::Recorder object
 my $agent = new HTTP::Recorder;
+print "Proxy control panel     http://" . $agent->control . "/\n";
 
 # set the log file (optional)
 $agent->file($filename);
+print "Recording to file       $filename\n";
 
 # set HTTP::Recorder as the agent for the proxy
 $proxy->agent( $agent );
@@ -39,18 +40,18 @@ httprecorder - quick script for recording HTTP traffic
 
 =head1 SYNOPSIS
 
-	httprecorder [ --port=8080 ] [ --file=http_traffic ] [ --help ]
+    httprecorder [ --port=8080 ] [ --file=http_traffic ] [ --help ]
 
-	Options:
-	--help    brief help message
-	--port    Port number to use for the proxy server (default 8080)
-	--file    filename to record the traffic to (default "http_traffic")
+    Options:
+    --help    brief help message
+    --port    Port number to use for the proxy server (default 8080)
+    --file    filename to record the traffic to (default "http_traffic")
 
 =head1 DESCRIPTION
 
 This is a quick script for using HTTP::Recorder module. If you need customizing
 please see the module itself
-	
+
 =head1 Author
 
 Shmuel Fomberg <semuelf@cpan.org>

@@ -1,0 +1,10 @@
+.*\.bak$
+^.perltidyrc
+MYMETA.json
+MYMETA.yml
+^Makefile$
+^blib
+^pm_to_blib$
+^MANIFEST$
+^.gitignore$
+^.git
