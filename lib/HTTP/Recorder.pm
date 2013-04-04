@@ -1,6 +1,6 @@
 package HTTP::Recorder;
 
-our $VERSION = "0.06_01";
+our $VERSION = "0.06_02";
 
 =head1 NAME
 
@@ -449,7 +449,7 @@ sub modify_response {
             if (!$js_href && $tagname ne 'form' && ($formcount == 1)) {
                 my ($formfield, $fieldprefix, $fieldtype, $fieldname);
                 $fieldprefix = "$self->{prefix}-form" . $formnumber;
-                $fieldtype = lc($attrs->{type}) || 'unknown';
+                $fieldtype = lc($attrs->{type} || 'unknown');
                 if ($attrs->{name}) {
                     $fieldname = $attrs->{name};
                     $formfield = ($fieldprefix . '-' . 

@@ -1,6 +1,10 @@
 Revision history for HTTP::Recorder
 -----------------------------------
 
+0.06_02
+    Quelch 'unitialized' warning in HTTP::Recorder
+    Make http_recorder script give a nicer output at startup
+
 0.06_01
 	New maintanner
 	added a script httprecorder.pl for simple recordering
