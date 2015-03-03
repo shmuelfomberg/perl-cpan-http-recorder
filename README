@@ -10,7 +10,7 @@ INSTALLATION
 
 Set HTTP::Recorder as the agent for your web proxy.
 
-Optionally, it uses javascript to open a window to display the script.
+Optionally, it uses JavaScript to open a window to display the script.
 
 PROBLEMS
 

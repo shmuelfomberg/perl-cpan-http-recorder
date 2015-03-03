@@ -23,7 +23,7 @@ Revision history for HTTP::Recorder
    - The showwindow option is gone (no popups any more).
    - If you want to use the control panel, you need to start there.
    - The control panel now spawns a window for navigation.
-   - The navigation window updates the Control Panel via Javascript.
+   - The navigation window updates the Control Panel via JavaScript.
 
    Download button downloads the script file directly.
 
