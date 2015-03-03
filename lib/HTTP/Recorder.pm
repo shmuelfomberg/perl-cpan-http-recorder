@@ -11,15 +11,15 @@ HTTP::Recorder - record interaction with websites
 =head2 This module is deprecated
 
 It works by tagging links in a page, and then when a link is clicked
-looking on the submitted tag to see which link was clicked
+looking on the submitted tag to see which link was clicked.
 
-It can not handle Javascript-created links or JS manipulation of the page
-so it works only for fairly static websites
+It can not handle JavaScript-created links or JavaScript manipulation of the
+page so it works only for fairly static websites.
 
-For better options check out Selenium
+For better options check out Selenium.
 
-Patchs are welcome, and I'll fix bugs as much as I can, but please don't 
-expect me to implement new features
+Patches are welcome, and I'll fix bugs as much as I can, but please don't
+expect me to implement new features.
 
 =head2 Using HTTP::Recorder as a Web Proxy
 
@@ -72,7 +72,7 @@ start recording from the Control Panel.
 
 =head3 Using the Control Panel
 
-If you have Javascript enabled in your browser, go to the
+If you have JavaScript enabled in your browser, go to the
 L<HTTP::Recorder> control URL (http://http-recorder by default),
 optionally type a URL into the "Goto page" field, and click "Go".
 
@@ -477,13 +477,13 @@ sub modify_response {
             my $attrlist = @$token[3];
             foreach my $attr (@$attrlist) {
                 # only rewrite if 
-                # - it's not part of a javascript link
+                # - it's not part of a "javascript:" link
                 # - it's not a hidden field
                 $newcontent .= (" ".$attr."=\"".$attrs->{$attr}."\"");
             }
             $newcontent .= (">\n");
             if ($tagname eq 'head') {
-                # add the javascript to update the script, right after the head opening tag
+                # add the JavaScript to update the script, right after the head opening tag
                 $newcontent .= $self->script_update();
             }
             if ($tagname eq 'form') {
@@ -720,9 +720,9 @@ EOF
 
 =head1 Bugs, Missing Features, and other Oddities
 
-=head2 Javascript
+=head2 JavaScript
 
-L<WWW::Mechanize> can't play back Javascript actions, and
+L<WWW::Mechanize> can't play back JavaScript actions, and
 L<HTTP::Recorder> doesn't record them.
 
 =head2 Why are my images corrupted?
